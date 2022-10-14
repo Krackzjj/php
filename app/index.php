@@ -1,10 +1,9 @@
 <?php
 
-$pdo = new PDO("mysql:dbname=data;host=db;charset=utf8", 'root', 'password');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$req = $pdo->query('SELECT * FROM articles');
-$res = $req->fetchAll(PDO::FETCH_OBJ);
+require('Database.php');
+$db = new Database();
 
+$rq = $db->query('SELECT * FROM articles')
 
 ?>
 
@@ -21,9 +20,12 @@ $res = $req->fetchAll(PDO::FETCH_OBJ);
 
 <body>
     <h1>Blog</h1>
-    <?php foreach ($res as $r) : ?>
+    <?php foreach ($rq as $r) : ?>
         <h3><?php echo $r->title; ?></h3>
-    <?php endforeach ?>
+        <em><?php echo $r->date . " " . "<b>" . $r->user . "</b>";  ?></em>
+        <p><?php echo $r->content ?></p>
+        <a href="article.php?id=<?php echo $r->id; ?>">lire la suite</a>
+    <?php endforeach; ?>
 </body>
 
 </html>
